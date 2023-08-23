@@ -20,7 +20,7 @@ def process_videos(videos):
     detector = face_detector.__dict__[detector_cls](device=device)
     dataset = VideoDataset(videos)
 
-    loader = DataLoader(dataset, shuffle=False, num_workers=0, batch_size=1, collate_fn=lambda x: x)
+    loader = DataLoader(dataset, shuffle=False, num_workers=4, batch_size=1, collate_fn=lambda x: x)
     missed_videos = []
 
     for item in tqdm(loader):
