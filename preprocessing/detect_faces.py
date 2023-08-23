@@ -10,8 +10,12 @@ from extract_crops import extract_video
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
-def process_videos(videos, processes):
-
+def process_videos(videos):
+    """
+    Detects faces in video frames.
+    Gets the position information of the faces into a dictionary and calls extract_video function to crop the faces
+    :param videos: File paths of videos
+    """
     detector_cls = "FacenetDetector"
     detector = face_detector.__dict__[detector_cls](device=device)
     dataset = VideoDataset(videos)
@@ -31,7 +35,7 @@ def process_videos(videos, processes):
         if len(result) > 0:
             video_folder_path = os.path.join(os.path.dirname(video), "crops", video_name)
             os.makedirs(os.path.join(video_folder_path), exist_ok=True)
-            extract_video(video=video, json_value=result, video_folder_path=video_folder_path)
+            extract_video(video=video, dict_faces=result, video_folder_path=video_folder_path)
         else:
             missed_videos.append(id)
     if len(missed_videos) > 0:
@@ -44,7 +48,6 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--data_path', type=str,
                         help='Videos directory')
-    parser.add_argument("--processes", help="Number of processes", default=1)
     opt = parser.parse_args()
 
     videos_paths = []
@@ -57,10 +60,11 @@ def main():
             if video[-4:] != '.mp4':
                 continue
             else:
-                if os.path.isdir(os.path.join(opt.data_path, folder, "crops", video[:-4])):  # eğer klaösr varsa video önceden işlenmiş
+                if os.path.isdir(os.path.join(opt.data_path, folder, "crops", video[:-4])):
+                    # if folder exists, video processed
                         continue
-                videos_paths.append(os.path.join(opt.data_path, folder, video)) # video pathini gönderdik
-    process_videos(videos_paths, opt.processes)
+                videos_paths.append(os.path.join(opt.data_path, folder, video))
+    process_videos(videos_paths)
 
 
 if __name__ == "__main__":

@@ -9,9 +9,16 @@ cv2.ocl.setUseOpenCL(False)
 cv2.setNumThreads(0)
 
 
-def extract_video(video, json_value, video_folder_path):
+def extract_video(video, dict_faces, video_folder_path):
+    """
+    Crops faces according to the dictionary containing the positions of the faces.
+    The extracted faces are collected in the folder of the linked video.
+    :param video: File paths of video
+    :param dict_faces: Dictionary with the position of the faces in the video
+    :param video_folder_path: Folder path to extract faces
+    """
     try:
-        bboxes_dict = json_value
+        bboxes_dict = dict_faces
         capture = cv2.VideoCapture(video)
         frames_num = int(capture.get(cv2.CAP_PROP_FRAME_COUNT))
         counter = 0
