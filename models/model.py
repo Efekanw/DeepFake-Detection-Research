@@ -1,4 +1,5 @@
 from models.ViT.cross_efficient_vit import CrossEfficientViT
+from models.Selim.selim_efficient import DeepFakeClassifier
 
 
 def model(model_name, config):
@@ -12,3 +13,5 @@ def model(model_name, config):
     config = config
     if model_name == 'cross_efficient_vit':
         return CrossEfficientViT(config=config)
+    elif model_name == 'selim_efficient':
+        return DeepFakeClassifier(config=config)
