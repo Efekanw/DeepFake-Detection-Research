@@ -8,7 +8,7 @@ from functools import partial
 from multiprocessing import Manager
 from progress.bar import ChargingBar
 from models.ViT.cross_efficient_vit import CrossEfficientViT
-from models.model import model
+from models.model import model_instance
 import cv2
 import glob
 import pandas as pd
@@ -117,7 +117,7 @@ if __name__ == "__main__":
         config = yaml.safe_load(ymlfile)
 
     # DİNAMİK
-    model = model(opt.model, config)
+    model = model_instance(opt.model, config)
     model.train()
 
     optimizer = torch.optim.SGD(model.parameters(), lr=config['training']['lr'],

@@ -2,7 +2,7 @@ from models.ViT.cross_efficient_vit import CrossEfficientViT
 from models.Selim.selim_efficient import DeepFakeClassifier
 
 
-def model(model_name, config):
+def model_instance(model_name, config):
     """
     Dynamic model function
     :param model_name: model name
